@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <script
@@ -9,23 +10,16 @@
             src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
         ></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <link rel="stylesheet" href="./styles.css" />
     </head>
     <body>
         <div id="root"></div>
-        <script src="./example-2.js" type="text/babel"></script>
+        <script src="./anotherFiles.js" type="text/babel"></script>
+        <script src="./example-1.js" type="text/babel"></script>
         <script type="text/babel">
             const root = ReactDOM.createRoot(document.getElementById("root"))
-            root.render(<ExampleApp />)
+            root.render(<App />)
         </script>
-        <style>
-            .person {
-                display: flex;
-                border: 1px solid rgb(159, 85, 133);
-                padding: 10px;
-                margin: 10px;
-
-                gap: 10px;
-            }
-        </style>
+        <style></style>
     </body>
 </html>
