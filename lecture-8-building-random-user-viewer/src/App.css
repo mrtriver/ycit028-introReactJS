@@ -1,0 +1,26 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.data-fetcher {
+  display: flex;
+  flex-direction: row;
+  gap : 1rem;
+ 
+}
+
+.user-data {
+  display: flex;
+  flex-direction: row;
+  gap : 1rem;
+  margin-top: 2rem;
+}
+.user-data > span:last-child{
+  margin-left: 6rem;
+}
+
+
+
+

@@ -1,7 +1,7 @@
 // how to map over an array of objects and render a list of components
 
 const family = [
-{id: 1, name: "Murat"},
+{id: 1, name: "Murat", job: "Developer"},
 {id: 2, name:"Sibel"},
 {id: 3, name:"Tarik"},
 {id: 4, name:"Zeynep"},
