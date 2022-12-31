@@ -13,17 +13,19 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { useRef } from "react";
 
 // import './App.css' SINCE WE ARE USING MATERIAL UI, WE DON'T NEED THIS
 
 function App() {
 
   const [medicareValue, setMedicareValue] = useState("")
-  const [visitDateValue, setVisitDateValue] = useState(dayjs("2014-08-18T21:11:54"));
+  const [visitDateValue, setVisitDateValue] = useState(new Date());
   const [visitTypeValue, setVisitTypeValue] = useState("principal-visit");
+  const [referralIdValue, setReferralIdValue] = useState("")
 
   function submitButtonHandler() {
-    console.log("medicareValue", medicareValue, "visitDateValue", visitDateValue, "visitTypeValue", visitTypeValue);
+    console.log("medicareValue", medicareValue, "visitDateValue", visitDateValue, "visitTypeValue", visitTypeValue, "referralIdValue", referralIdValue);
     () => 
       alert("clicked");
     }
@@ -39,9 +41,23 @@ function App() {
     }, []);
 
     const doctorsFeeLabel = `Doctor's Fee: ${getDoctorsFee(visitTypeValue)}`;
-
+    const textRef = useRef();
     
-   
+   let referralField = null;   //Conditional Rendering
+    if (visitTypeValue === "consultation") {
+
+      referralField = (<Box>
+        <TextField 
+        id="referral-id-field"
+        inputRef={textRef}
+        label="Referring Professional ID" 
+        variant="filled"
+        value={referralIdValue}
+        onChange={(evt) => setReferralIdValue(evt.target.value)}  // 
+     
+     />
+      </Box>)
+    }
   
 
   return (
@@ -87,8 +103,21 @@ function App() {
                   name="row-radio-buttons-group"
                   value={visitTypeValue}
                   onChange={(evt) => {
-                    console.log(evt.target.value)
-                    setVisitTypeValue(evt.target.value)}}
+                    const value = evt.target.value;
+                    console.log(value)
+                    setVisitTypeValue(value)
+                    setReferralIdValue("")
+
+                    if(value === "consultation") {
+                      setTimeout(() => {
+                        // const input = document.getElementById("referral-id-field")
+                        // input.focus()
+                        //Instead of using the above code, we can use the below code
+                        textRef.current.focus()
+                      }, 0)
+                     
+                    }
+                  }}
                 >
                   <FormControlLabel
                     value="principal-visit"
@@ -113,6 +142,8 @@ function App() {
                 </RadioGroup>
               </FormControl>
             </Stack>
+            {referralField}   
+           
             <Box>
               <Typography>{doctorsFeeLabel}</Typography>
             </Box>
