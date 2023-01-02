@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -14,20 +14,38 @@ import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useRef } from "react";
+import Alert from "@mui/material/Alert";
+import { getFormErrorText} from "./App.helper";
+
 
 // import './App.css' SINCE WE ARE USING MATERIAL UI, WE DON'T NEED THIS
 
 function App() {
+  const [alert, setAlert] = useState({severity: null, text: ""})
 
   const [medicareValue, setMedicareValue] = useState("")
   const [visitDateValue, setVisitDateValue] = useState(new Date());
   const [visitTypeValue, setVisitTypeValue] = useState("principal-visit");
   const [referralIdValue, setReferralIdValue] = useState("")
 
+
+
+
+
+
+
   function submitButtonHandler() {
-    console.log("medicareValue", medicareValue, "visitDateValue", visitDateValue, "visitTypeValue", visitTypeValue, "referralIdValue", referralIdValue);
-    () => 
-      alert("clicked");
+const params = {medicareValue, visitDateValue, visitTypeValue, referralIdValue}
+
+
+  const errorText =  getFormErrorText(params);
+  if(errorText) {
+    setAlert({severity: "error", text: errorText})
+   
+  }else {
+    setAlert({severity: "success", text: "Claim saved successfully"})
+  }  
+
     }
 
     useEffect(() => { 
@@ -58,7 +76,12 @@ function App() {
      />
       </Box>)
     }
+
   
+    {alert.text && (
+   <Alert severity={alert.severity}>{alert.text}</Alert>)
+    }
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -87,7 +110,10 @@ function App() {
                 label="Date of Visit"
                 inputFormat="MM/DD/YYYY"
                 value={visitDateValue}
-                onChange={(value) => setVisitDateValue(value)}
+                onChange={(value) => {
+                  console.log("VALUE", value)
+                  setVisitDateValue(value)
+                }}
                
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -154,9 +180,11 @@ function App() {
               color="success"
               onClick={submitButtonHandler}
             >
-              Push The Button
+              Submit
             </Button>
           </Box>
+
+         {alert.text }
         </Stack>
      
     </LocalizationProvider>
